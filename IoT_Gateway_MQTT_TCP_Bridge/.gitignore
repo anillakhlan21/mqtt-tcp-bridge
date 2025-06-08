@@ -1,0 +1,26 @@
+# Build folders
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+*.dll
+*.log
+# macOS system files
+.DS_Store
+# Editor files
+*.swp
+*.swo
+*.user
+*.vscode/
+# Ignore SDK and package build folders
+mypackages/
+# Ignore generated binaries
+IoT_Gateway_MQTT_TCP_Bridge
