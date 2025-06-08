@@ -1,4 +1,4 @@
-#include "ThreadManager.h"
+#include "thread_manager.h"
 
 ThreadManager::ThreadManager() : running(false) {}
 

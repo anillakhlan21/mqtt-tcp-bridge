@@ -28,3 +28,7 @@ g++ -std=c++17 main.cpp ThreadManager.cpp -o iot_gateway_app -lpthread
 # sudo make -j1 V=s package/IoT_Gateway_MQTT_TCP_Bridge/compile
 # rm -rf /home/rituraj/SDK/RUT956/RUT9M_R_GPL_00.07.14.2/rutos-ramips-rut9m-sdk/build_dir/target-mipsel_24kc_musl/IoT_Gateway_MQTT_TCP_Bridge-1.0/
 # cd /SDK/RUT956/RUT9M_R_GPL_00.07.14.2/rutos-ramips-rut9m-sdk
+
+
+<!-- mosquitto_pub -h localhost -t iot/data -m "Hello from MQTT" -->
+<!-- mosquitto_sub -h localhost -t iot/data -->

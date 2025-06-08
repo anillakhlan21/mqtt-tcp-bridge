@@ -1,6 +1,8 @@
-#include "Utility.h"
-#include "TCPClientImpl.h"
-#include "MQTT.h"
+#include "bridge_utils.h"
+#include "tcp_client.h"
+#include "mqtt_bridge.h"
+#include <sys/types.h>
+#include <sys/socket.h>
 
 int Utility::writeToTcpSocket(const std::string& message, int socketFd) {
     ssize_t bytesSent = send(socketFd, message.c_str(), message.size(), 0);

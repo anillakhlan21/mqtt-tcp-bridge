@@ -4,6 +4,7 @@
 #include <mosquitto.h>
 #include <string>
 #include "controllercommand.h"
+#include <functional>
 
 using std::string;
 class Mqtt
@@ -15,6 +16,7 @@ class Mqtt
     void loop();
     void publishMessage(string payload, int qos = 0, int retain = 0);
     void subscribeTopic(const char* topic, int qos = 0);
+    void setOnMessageCallback(std::function<void(const std::string&)> cb);
 
   private:
     void initializeMosquittoLib();
@@ -32,6 +34,7 @@ class Mqtt
     int keepAlive;
     const char* host;
     const char* topic;
+    std::function<void(const std::string&)> onMessageCallback;
 };
 
 #endif

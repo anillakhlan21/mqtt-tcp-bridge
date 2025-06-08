@@ -1,0 +1,16 @@
+{
+  "mqtt": {
+    "clientId": "testClient",
+    "host": "localhost",
+    "port": 1883,
+    "keepAlive": 60,
+    "username": "",
+    "password": "",
+    "subscribe_topic": "iot/in",
+    "publish_topic": "iot/out"
+  },
+  "tcp": {
+    "host": "127.0.0.1",
+    "port": 8081
+  }
+}

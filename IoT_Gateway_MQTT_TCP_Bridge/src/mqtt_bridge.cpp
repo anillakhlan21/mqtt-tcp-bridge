@@ -1,7 +1,7 @@
-#include "MQTT.h"
+#include "mqtt_bridge.h"
 // #include <stdio.h>
 #include <iostream>
-#include <cstring>   // for strerror
+#include <cstring>   // for strerror`
 #include <unistd.h>  // Include for sleep function on Unix/Linux
 #include <thread>
 #include <chrono>
@@ -14,6 +14,12 @@ Mqtt::Mqtt( const char* clientId, const char* host, int port, int keepAlive, con
 {
     mosquitto* mosqClient = createMosquittoClientInstance( clientId, cleanSession );
     setUserNameAndPassword( mosqClient, userName, password );
+    mosquitto_message_callback_set(mosqClient, [](mosquitto* m, void* userdata, const mosquitto_message* msg) {
+        if (userdata) {
+            static_cast<Mqtt*>(userdata)->on_message(msg);
+        }
+    });
+    mosquitto_user_data_set(mosqClient, this);
     bool isConnected = false;
     while ( !isConnected )
     {
@@ -227,11 +233,17 @@ bool Mqtt::reconnect()
     }
 }
 
+void Mqtt::setOnMessageCallback(std::function<void(const std::string&)> cb) {
+    onMessageCallback = std::move(cb);
+}
+
 void Mqtt::on_message(const mosquitto_message *message)
 {
     if (message && message->payload) {
-        std::string topic = message->topic;
         std::string payload(static_cast<char *>(message->payload), message->payloadlen);
+        if (onMessageCallback) {
+            onMessageCallback(payload);
+        }
     }
     else {
         std::cerr << "Error: Received message is null or empty" << std::endl;
