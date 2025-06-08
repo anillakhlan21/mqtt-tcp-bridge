@@ -19,5 +19,10 @@ AppConfig load_config(const std::string& filename) {
     config.mqtt.publish_topic = j["mqtt"].value("publish_topic", "iot/out");
     config.tcp.host = j["tcp"].value("host", "127.0.0.1");
     config.tcp.port = j["tcp"].value("port", 8081);
+    if (j.contains("commands")) {
+        for (auto& [k, v] : j["commands"].items()) {
+            config.commands[k] = v;
+        }
+    }
     return config;
 }

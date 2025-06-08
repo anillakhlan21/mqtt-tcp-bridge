@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <nlohmann/json.hpp>
+#include <map>
 
 struct MqttConfig {
     std::string clientId;
@@ -21,6 +22,7 @@ struct TcpConfig {
 struct AppConfig {
     MqttConfig mqtt;
     TcpConfig tcp;
+    std::map<std::string, std::string> commands;
 };
 
 AppConfig load_config(const std::string& filename);

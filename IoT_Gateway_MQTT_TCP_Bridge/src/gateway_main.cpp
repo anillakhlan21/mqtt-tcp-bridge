@@ -26,11 +26,17 @@ int main() {
         mqttClient.subscribeTopic(config.mqtt.subscribe_topic.c_str(), 1);
         tcpClient.connect(config.tcp.host.c_str(), config.tcp.port);
 
-        // Set up MQTT-to-TCP forwarding
-        mqttClient.setOnMessageCallback([&tcpClient](const std::string& msg) {
+        // Set up MQTT-to-TCP forwarding with command mapping
+        mqttClient.setOnMessageCallback([&tcpClient, &config](const std::string& msg) {
             try {
-                tcpClient.send(msg);
-                std::cout << "Forwarded MQTT message to TCP: " << msg << std::endl;
+                auto it = config.commands.find(msg);
+                if (it != config.commands.end()) {
+                    tcpClient.send(it->second);
+                    std::cout << "Mapped MQTT command '" << msg << "' to TCP value: " << it->second << std::endl;
+                } else {
+                    tcpClient.send(msg);
+                    std::cout << "Forwarded raw MQTT message to TCP: " << msg << std::endl;
+                }
             } catch (const std::exception& e) {
                 std::cerr << "Failed to forward MQTT message to TCP: " << e.what() << std::endl;
             }
